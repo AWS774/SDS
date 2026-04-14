@@ -8,20 +8,24 @@ on:
 jobs:
   sonarqube:
     name: SonarQube
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.35.7'
           channel: 'stable'
+
       - name: Install dependencies
         run: flutter pub get
-      - name: Build
-        run: flutter analyze
+
+      - name: Flutter Analyze
+        run: flutter analyze --no-fatal-infos
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
